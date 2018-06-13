@@ -2,6 +2,11 @@ import React, { PureComponent } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+// import WithClass from '../hoc/WithClass';
+import Aux from '../hoc/Aux1';
+//Second option as an function that returns function
+import withClass from '../hoc/WithClass';
+
 
 class App extends PureComponent {
   constructor(props) {
@@ -37,7 +42,8 @@ class App extends PureComponent {
       { id: 'qwe3', name: 'Joe', age: 84 }
     ],
     otherState: "Test",
-    showPersons: false
+    showPersons: false,
+    toggleClicked: 0
   }
 
   nameChangedHandler = (event, id) => {
@@ -68,7 +74,12 @@ class App extends PureComponent {
 
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
-    this.setState({ showPersons: !doesShow });
+    this.setState((prevState, props) => {
+      return {
+        showPersons: !doesShow,
+        toggleClicked: prevState.toggleClicked + 1
+      }
+    });
   }
 
   render() {
@@ -83,7 +94,7 @@ class App extends PureComponent {
     }
 
     return (
-      <div className={classes.App}>
+      <Aux>
         <button onClick={() => { this.setState({ showPersons: true }) }}>Show persons</button>
         <Cockpit
           appTitle={this.props.title}
@@ -91,9 +102,9 @@ class App extends PureComponent {
           persons={this.state.persons}
           clicked={this.togglePersonsHandler} />
         {persons}
-      </div>
+      </Aux>
     );
   }
 }
 
-export default App;
+export default withClass(App, classes.App);

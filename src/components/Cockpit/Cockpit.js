@@ -4,13 +4,9 @@ import Aux from '../../hoc/Aux1';
 
 const cockpit = (props) => {
     let btnClass = classes.button;
-    // if (condition) {
-    //     btnClass 
-    // } da se dovrsi 5:00 91
-
     if (props.showPersons) {
-        btnClass = classes.red;
-    }
+        btnClass = [classes.button, classes.red].join(' ');
+    } 
 
     const assignedClasses = [];
     if (props.persons.length <= 2) {
